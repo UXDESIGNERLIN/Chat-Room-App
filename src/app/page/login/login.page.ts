@@ -17,10 +17,24 @@ export class LoginPage implements OnInit {
   
 
   ngOnInit() {
+   // this.state();
+
   }
 
+  
+
   login() {
+    
     console.log(this.email, this.password);
     this.auth.login(this.email, this.password);
+    
   }
+
+  logout() {
+    this.auth.logout();
+    
+  }
+
+
+
 }
