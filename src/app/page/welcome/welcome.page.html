@@ -1,9 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>welcome</ion-title>
+    <ion-title>CHAT PAGE</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-item>
+      <ion-button [routerLink]="['./', 'english']">ENGLISH</ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-button [routerLink]="['./', 'catalan']">CATALAN</ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-button [routerLink]="['./', 'spanish']">SPANISH</ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-button [routerLink]="['./', 'chinese']">CHINESE</ion-button>
+    </ion-item>
+  </ion-list>
 </ion-content>
