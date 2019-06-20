@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>chat-language</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list *ngFor="let message of messages"  no-lines class="msgbubble">
+        <div *ngIf="message.user!==currentUser" class="innermsg left" >
+          {{message.message}}
+          <br>
+          <span class="time">20:15</span>
+        </div>
+       
+        <div class="innermsg right" >
+            {{message.message}}
+          <br>
+          <span class="time">20:15</span>
+        </div>
+        
+    </ion-list>
+
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-item no-lines #chatInput>
+          <ion-input spellcheck="true" autoComplete="true" autocorrect="true" maxlength="500" type="text" (keyup.enter)="sendMessage(newMessage); newMessage=''" placeholder="Type your message..." [(ngModel)]="newMessage"></ion-input>
+          <button  ion-button item-right (click)="sendMessage(newMessage); newMessage=''">
+            <ion-icon name="send"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-toolbar>
+</ion-footer>
