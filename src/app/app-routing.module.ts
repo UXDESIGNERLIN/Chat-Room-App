@@ -5,7 +5,12 @@ const routes: Routes = [
   { path: '', redirectTo: 'signup', pathMatch: 'full' },
   { path: 'login', loadChildren: './page/login/login.module#LoginPageModule' },
   { path: 'signup', loadChildren: './page/signup/signup.module#SignupPageModule' },
-  { path: 'welcome', loadChildren: './page/welcome/welcome.module#WelcomePageModule' },
+  { path: 'welcome', 
+    children:[
+      {  path:'', loadChildren: './page/welcome/welcome.module#WelcomePageModule'},
+      {  path:':language', loadChildren: './page/chat-language/chat-language.module#ChatLanguagePageModule'}
+    ]
+  }
 ];
 
 @NgModule({
