@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { message } from 'src/app/message';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 
 @Component({
   selector: 'app-chat-language',
@@ -25,11 +27,11 @@ export class ChatLanguagePage implements OnInit {
 
   ]
 
-  currentUser_Id;
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,
+              private af: AngularFireAuth) { }
 
   ngOnInit() {
-    //this.auth.getCurrentUser().subscribe();
+   
     this.showUsers();
     
 //this.auth.state();
@@ -41,9 +43,15 @@ export class ChatLanguagePage implements OnInit {
 
   showUsers() {
     //this.auth.getCurrentUser()
-    this.currentUser_Id = this.auth.getCurrentUser();
-    //this.auth.getCurrentUser();
-    console.log("Current User Id",this.currentUser_Id);
+    //this.currentUser_Id = this.auth.getCurrentUser();
+    this.af.auth.onAuthStateChanged((user)=>{
+      if(user) {
+        console.log("the user is:", user.uid)
+      }
+      else {
+        console.log("No user :(");
+      }
+    })
   }
 
 }

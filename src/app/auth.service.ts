@@ -55,7 +55,7 @@ export class AuthService {
     return profileUid;
   }
 */
-
+/*
   getCurrentUser(){
     return new Promise<any>((resolve, reject) => {
       this.af.auth.onAuthStateChanged(function(user){
@@ -67,19 +67,13 @@ export class AuthService {
       })
     })
   }
+*/
 
-/*
 getCurrentUser():Observable<any>{
-  return <any>this.af.auth.onAuthStateChanged((user) => {
-    if (user) {
-    return of (user)
-    } else {
-      console.log("No one here");
-    }
-  })
+  return <any> of (this.af.auth.onAuthStateChanged);
 }
 
-
+/*
   updateCurrentUser(value){
     return new Promise<any>((resolve, reject) => {
       var user = this.af.auth.currentUser;
