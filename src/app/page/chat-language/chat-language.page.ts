@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { message } from 'src/app/message';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -11,6 +14,19 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class ChatLanguagePage implements OnInit {
 
+  currentUser_id: string;
+
+  messages: message[] = [
+    {
+      uid:"",
+      user: "",
+      text: "",
+      time: Date.now()/1000
+    }
+  ];
+
+
+/*Data simulation 
   messages: message[] = [
     {
       uid:"",
@@ -23,22 +39,39 @@ export class ChatLanguagePage implements OnInit {
       user: "Cat",
       message: "Meow",
       time: + (Date.now)/1000,
+    },
+    {
+      uid: this.currentUser_id,
+      user: "current",
+      message: "Mouuu",
+      time: + (Date.now)/1000,
+    },
+    {
+      uid: this.currentUser_id,
+      user: "current",
+      message: "Mouuu",
+      time: + (Date.now)/1000,
     },       
 
   ]
+*/
+  
 
   constructor(private auth: AuthService,
-              private af: AngularFireAuth) { }
+              private af: AngularFireAuth,
+              private afs: AngularFirestore,
+              ) {
+
+
+               }
 
   ngOnInit() {
    
     this.showUsers();
+    console.log(this.currentUser_id);
+    this.queryMessage();
     
 //this.auth.state();
-  }
-
-  loadMessage() {
-
   }
 
   showUsers() {
@@ -47,11 +80,29 @@ export class ChatLanguagePage implements OnInit {
     this.af.auth.onAuthStateChanged((user)=>{
       if(user) {
         console.log("the user is:", user.uid)
+        this.currentUser_id = user.uid;
+        
       }
       else {
         console.log("No user :(");
       }
     })
   }
+
+  queryMessage() {
+    //let chatsCollection = this.afs.collection<any>('chats');
+    let messages_db = this.afs.collection('chats/rhJKJtUW7QGLIRm4Jps1/messages', ref => ref.limit(30));
+    messages_db.valueChanges().subscribe((message_data) => {
+      console.log(this.messages, message_data);
+      this.messages = message_data as message[];
+    })
+  }
+
+  sendMessage(newMessage) {
+   this.afs.collection('chats/rhJKJtUW7QGLIRm4Jps1/messages').add({uid:this.currentUser_id, text:newMessage, time:Date.now()/1000});
+  }
+
+
+
 
 }

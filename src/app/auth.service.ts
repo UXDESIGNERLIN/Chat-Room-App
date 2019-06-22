@@ -12,80 +12,26 @@ import { Session } from 'protractor';
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class AuthService {
-  user$: Observable<any>;
+ 
   constructor(
     private af: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router,
 
   ) {
-    //Get auth data, then get firestore user document || null 
-    this.user$ = this.af.authState.pipe(
-      switchMap(user => {
-        if (user) {
-          return this.afs.doc<any>(`users/${user.uid}`).valueChanges();
-        } else {
-          return of(null);
-        }
-      })
-    );
+   
   }
 
-  
-
-  //Get the currently signed-in user 
-/*
-  getCurrentUser() {
-    let profileUid;
-    let user = this.af.auth.currentUser;
-    if (user) {
-      user.providerData.forEach(function (profile) {
-        profileUid = profile.uid;
-        console.log("Sign-in provider: " + profile.providerId);
-        console.log("  Provider-specific UID: " + profile.uid);
-        console.log("  Name: " + profile.displayName);
-        console.log("  Email: " + profile.email);
-        console.log("  Photo URL: " + profile.photoURL);
-      });
-    }
-    else {
-      console.log("no one");
-    }
-    return profileUid;
-  }
-*/
-/*
-  getCurrentUser(){
-    return new Promise<any>((resolve, reject) => {
-      this.af.auth.onAuthStateChanged(function(user){
-        if (user) {
-          resolve(user);
-        } else {
-          reject('No user logged in');
-        }
-      })
-    })
-  }
-*/
+ 
 
 getCurrentUser():Observable<any>{
   return <any> of (this.af.auth.onAuthStateChanged);
 }
 
-/*
-  updateCurrentUser(value){
-    return new Promise<any>((resolve, reject) => {
-      var user = this.af.auth.currentUser;
-      user.updateProfile({
-        displayName: value.name,
-        photoURL: user.photoURL
-      }).then(res => {
-        resolve(res);
-      }, err => reject(err))
-    })
-  }
-*/
+
   signup(email, password) {
     this.af.auth.createUserWithEmailAndPassword(email, password).then(
       (success) => {

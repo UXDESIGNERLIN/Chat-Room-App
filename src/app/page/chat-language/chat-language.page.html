@@ -4,28 +4,36 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <!--
     <ion-list *ngFor="let message of messages"  no-lines class="msgbubble">
-        <div *ngIf="message.user!==currentUser" class="innermsg left" >
-          {{message.message}}
+        <div *ngIf="message.uid !== currentUser_id" class="innermsg left" >
+          {{message.text}}
           <br>
-          <span class="time">20:15</span>
+          <span class="time">{{message.time | date:'mm:ss'}}</span>
         </div>
        
-        <div class="innermsg right" >
-            {{message.message}}
+        <div *ngIf="message.uid == currentUser_id"class="innermsg right" >
+            {{message.text}}
           <br>
-          <span class="time">20:15</span>
+          <span class="time">{{message.time | date:'mm:ss' }}</span>
         </div>
         
     </ion-list>
-
+    -->
+    <ion-list *ngFor="let message of messages"  no-lines class="msgbubble">
+        <div  [class]="message.uid == currentUser_id ? 'innermsg right' : 'innermsg left' " >
+          {{message.text}}
+          <br>
+          <span class="time">{{message.time | date:'mm:ss'}}</span>
+        </div>
+    </ion-list>
 </ion-content>
 <ion-footer>
     <ion-toolbar>
         <ion-item no-lines #chatInput>
           <ion-input spellcheck="true" autoComplete="true" autocorrect="true" maxlength="500" type="text" (keyup.enter)="sendMessage(newMessage); newMessage=''" placeholder="Type your message..." [(ngModel)]="newMessage"></ion-input>
-          <button  ion-button item-right (click)="sendMessage(newMessage); newMessage=''">
+          <button  ion-button item-right (click)="sendMessage(newMessage)">
             <ion-icon name="send"></ion-icon>
           </button>
         </ion-item>

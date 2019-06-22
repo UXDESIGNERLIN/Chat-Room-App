@@ -1,6 +1,6 @@
 export interface message {
     uid: string,
     user: string,
-    message: string,
+    text: string,
     time: number
 }

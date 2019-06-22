@@ -36,8 +36,6 @@ export class DatabaseService {
 
   
 
-
-
 }
 /*
 service firebase.storage {
