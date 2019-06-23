@@ -1,33 +1,22 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>chat-language</ion-title>
+  <ion-toolbar ion-grid>
+    <ion-row>
+      <ion-title>chat-language</ion-title>
+      <ion-button float-right><ion-icon name="exit"></ion-icon></ion-button>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <!--
-    <ion-list *ngFor="let message of messages"  no-lines class="msgbubble">
-        <div *ngIf="message.uid !== currentUser_id" class="innermsg left" >
-          {{message.text}}
-          <br>
-          <span class="time">{{message.time | date:'mm:ss'}}</span>
-        </div>
-       
-        <div *ngIf="message.uid == currentUser_id"class="innermsg right" >
+<ion-content   padding  >
+    <div  #scroller >
+      <ion-list *ngFor="let message of messages"  no-lines class="msgbubble">
+          <div  [class]="message.uid == currentUser_id ? 'innermsg right' : 'innermsg left' " >
             {{message.text}}
-          <br>
-          <span class="time">{{message.time | date:'mm:ss' }}</span>
-        </div>
-        
-    </ion-list>
-    -->
-    <ion-list *ngFor="let message of messages"  no-lines class="msgbubble">
-        <div  [class]="message.uid == currentUser_id ? 'innermsg right' : 'innermsg left' " >
-          {{message.text}}
-          <br>
-          <span class="time">{{message.time | date:'mm:ss'}}</span>
-        </div>
-    </ion-list>
+            <br>
+            <span class="time">{{message.time | date:'mm:ss'}}</span>
+          </div>
+      </ion-list>
+   </div>
 </ion-content>
 <ion-footer>
     <ion-toolbar>
