@@ -27,4 +27,7 @@ export class WelcomePage implements OnInit {
     this.dataBaseService.addUser();
   }
 
+  logout() {
+    this.auth.logout();
+  }
 }

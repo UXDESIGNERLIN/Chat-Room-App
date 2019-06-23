@@ -61,6 +61,7 @@ getCurrentUser():Observable<any>{
   logout() {
     this.af.auth.signOut().then((x) => {
       console.log("User log out ", x);
+      this.router.navigateByUrl('/login');
     }).catch((error) => {
       console.log("error", error);
     })

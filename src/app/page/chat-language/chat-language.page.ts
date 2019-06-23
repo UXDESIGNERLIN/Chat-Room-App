@@ -47,7 +47,7 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
 
   scrolltoBottom() {
     //Craxy Shadow Dom//
-    this.feedContainer.nativeElement.parentElement.shadowRoot.children[1].scroll(0,this.feedContainer.nativeElement.scrollHeight);
+    (this.feedContainer.nativeElement.parentElement.shadowRoot.children[1] as any).scroll(0,this.feedContainer.nativeElement.scrollHeight);
   }
 
   ngAfterViewChecked() {

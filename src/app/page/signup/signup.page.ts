@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 @Component({
@@ -12,8 +14,10 @@ export class SignupPage implements OnInit {
   email: string;
   password: string;
   confirmPassword: string;
+  userName: string;
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,
+              private afs: AngularFirestore) { }
 
   ngOnInit() {
   }
@@ -21,6 +25,7 @@ export class SignupPage implements OnInit {
   signup() {
     console.log(this.email, this.password);
     this.auth.signup(this.email, this.password);
+    this.afs.collection("users").add({ });
   }
 
   

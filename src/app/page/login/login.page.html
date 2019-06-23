@@ -15,9 +15,8 @@
           <ion-label position="floating">Password:</ion-label>
           <ion-input type="password" [(ngModel)]="password" ></ion-input>
         </ion-item>
-
     </ion-list>
   
-    <ion-button padding fill="solid" (click)="login()">Log In</ion-button>
-    <ion-button padding fill="solid" (click)="logout()">Log Out</ion-button>
+    <ion-button padding fill="clear" (click)="login()">LogIn</ion-button>
+    <ion-button padding fill="clear" routerLink="/signup">SIGNUP</ion-button>
 </ion-content>
