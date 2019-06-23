@@ -25,7 +25,7 @@ export class SignupPage implements OnInit {
   signup() {
     console.log(this.email, this.password);
     this.auth.signup(this.email, this.password);
-    this.afs.collection("users").add({ });
+    this.afs.collection("users").add({displayName:this.userName, email:this.email, password:this.password, time:Date.now()/1000 });
   }
 
   
