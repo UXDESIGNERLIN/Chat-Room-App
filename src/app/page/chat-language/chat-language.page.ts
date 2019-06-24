@@ -6,7 +6,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { user } from 'src/app/user';
-import { NavParams, NavController } from '@ionic/angular';
+import { User } from 'firebase';
+
 
 
 @Component({
@@ -18,6 +19,7 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
   @ViewChild('scroller') private feedContainer: ElementRef;
 
   currentUser_id: string;
+  currentUser: string;
 
   messages: message[] = [
     {
@@ -38,7 +40,9 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
     }
   ]
 
-  messages_db = this.afs.collection('chats/rhJKJtUW7QGLIRm4Jps1/messages', ref => ref.orderBy("time","asc").limit(100));
+  myMap = new Map();
+
+  messages_db: any = this.afs.collection('chats/rhJKJtUW7QGLIRm4Jps1/messages', ref => ref.orderBy("time","asc").limit(100));
 
   constructor(private auth: AuthService,
               private af: AngularFireAuth,
@@ -53,6 +57,7 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
     this.showUsers();
     console.log(this.currentUser_id);
     this.queryMessage();
+   // this.getUserbyId();
     
   }
 
@@ -70,7 +75,10 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
     this.af.auth.onAuthStateChanged((user)=>{
       if(user) {
         console.log("the user is:", user)
-        this.currentUser_id = user.uid;       
+        this.currentUser_id = user.uid; 
+        this.afs.collection("users").doc(`${user.uid}`).valueChanges().subscribe((user)=>{
+          this.currentUser = user['displayName'];
+        });      
       }
       else {
         console.log("No user :(");
@@ -82,30 +90,11 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
     this.messages_db.valueChanges().subscribe((message_data) => {
       this.messages = message_data as message[];
     })
+
   }
 
   sendMessage(newMessage) {
-   this.afs.collection(`chats/rhJKJtUW7QGLIRm4Jps1/messages`).add({uid:this.currentUser_id, text:newMessage, time:Date.now()/1000});
+   this.afs.collection(`chats/rhJKJtUW7QGLIRm4Jps1/messages`).add({uid:this.currentUser_id, user:this.currentUser, text:newMessage,time:Date.now()/1000});
   }
-/*
-  getUserbyId() {
-    
-    //Read uid from the collections 
-    this.messages_db.valueChanges().subscribe((message_data) => {
-      message_data.map((d:any)=>{
-        //console.log("dataa",d.uid);
-        this.afs.collection(`chats/rhJKJtUW7QGLIRm4Jps1/messages`, ref => ref.where('uid', '==', this.currentUser_id)).valueChanges().subscribe((user)=>{
-         
-          //this.afs.doc(`users/1`).valueChanges().subscribe(c=>console.log(c))
-        })
-     
-
-      })
-    })
-  }
- */ 
-
- 
-
 
 }
