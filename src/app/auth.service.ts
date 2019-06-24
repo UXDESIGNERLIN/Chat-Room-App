@@ -31,10 +31,11 @@ getCurrentUser():Observable<any>{
   return <any> of (this.af.auth.onAuthStateChanged);
 }
 
-
+/*
   signup(email, password) {
     this.af.auth.createUserWithEmailAndPassword(email, password).then(
       (success) => {
+        this.afs.collection("users").doc(success.user.uid).set({})
         console.log(success);
         this.router.navigateByUrl('/login');
       }
@@ -44,12 +45,13 @@ getCurrentUser():Observable<any>{
       }
     )
   }
-
+*/
   login(email, password) {
     this.af.auth.signInWithEmailAndPassword(email, password).then(
       () => {
         console.log("welcome");
         this.router.navigateByUrl('/welcome');
+       
       }
     ).catch(
       (error) => {
