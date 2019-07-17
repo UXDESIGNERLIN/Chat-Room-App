@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { user } from 'src/app/user';
 import { User } from 'firebase';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -41,12 +42,23 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
   ]
 
   myMap = new Map();
+  chatLanguageId: string;
+  languages = this.activateRoute.snapshot.paramMap.get("language");
+  
 
-  messages_db: any = this.afs.collection('chats/rhJKJtUW7QGLIRm4Jps1/messages', ref => ref.orderBy("time","asc").limit(100));
+/*
+  Chinese:string = "B0zv2nsBy4tBvrdRlxVl";
+  English: string = "rhJKJtUW7QGLIRm4Jps1";
+  Spanish: string = "rhJKJtUW7QGLIRm4Jps1";
+  Catalan: string = "rhJKJtUW7QGLIRm4Jps1";
+*/
 
+  //messages_db: any = this.afs.collection(`chats/${this.chatLanguageId}/messages`, ref => ref.orderBy("time","asc").limit(100));
+  messages_db: any;
   constructor(private auth: AuthService,
               private af: AngularFireAuth,
               private afs: AngularFirestore,
+              private activateRoute: ActivatedRoute
  
               ) {
              
@@ -54,12 +66,36 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
                }
 
   ngOnInit() { 
+    this.languageId();
     this.showUsers();
     console.log(this.currentUser_id);
     this.queryMessage();
    // this.getUserbyId();
+   console.log("LANGUAGE", this.chatLanguageId, this.messages_db);
     
   }
+
+  languageId() {
+    switch (this.languages) {
+      case "chinese":
+        this.chatLanguageId = "B0zv2nsBy4tBvrdRlxVl";
+        break;
+      case "english":
+        this.chatLanguageId = "rhJKJtUW7QGLIRm4Jps1";
+        break;
+      case "spanish":
+        this.chatLanguageId = "HtxNrwt8za0km0XWHcfu";
+        break;
+      case "catalan":
+        this.chatLanguageId = "ofe9DsiULPjU4YbhuDTZ";
+        break;
+    }
+
+    this.messages_db = this.afs.collection(`chats/${this.chatLanguageId}/messages`, ref => ref.orderBy("time","asc").limit(100));
+
+
+  }
+ 
 
   scrolltoBottom() {
     //Craxy Shadow Dom//
@@ -87,6 +123,7 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
   }
 
   queryMessage() {
+    //this.languageId();
     this.messages_db.valueChanges().subscribe((message_data) => {
       this.messages = message_data as message[];
     })
@@ -94,7 +131,8 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
   }
 
   sendMessage(newMessage) {
-   this.afs.collection(`chats/rhJKJtUW7QGLIRm4Jps1/messages`).add({uid:this.currentUser_id, user:this.currentUser, text:newMessage,time:Date.now()/1000});
+    console.log(newMessage);
+   this.afs.collection(`chats/${this.chatLanguageId}/messages`).add({uid:this.currentUser_id, user:this.currentUser, text:newMessage,time:Date.now()/1000});
   }
 
 }

@@ -9,9 +9,10 @@
 
 <ion-content   padding  >
     <div  #scroller >
-      <ion-list *ngFor="let message of messages"  no-lines class="msgbubble">
-          <div [class]="message.uid == currentUser_id ? 'innermsg right' : 'innermsg left' " >
-            <span>{{message.user}}:</span><br>
+      <ion-list *ngFor="let message of messages"  no-lines class="msgbubble" >
+          <span [class]="message.uid == currentUser_id ? 'right' : 'left' ">{{message.user}}:</span><br>
+          <div [class]="message.uid == currentUser_id ? 'innermsg right ' : 'innermsg left ' " >
+            
             {{message.text}}
             <br>
             <span class="time">{{message.time | date:'mm:ss'}}</span>
