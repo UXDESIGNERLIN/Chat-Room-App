@@ -132,7 +132,7 @@ export class ChatLanguagePage implements OnInit, AfterViewChecked {
 
   sendMessage(newMessage) {
     console.log(newMessage);
-   this.afs.collection(`chats/${this.chatLanguageId}/messages`).add({uid:this.currentUser_id, user:this.currentUser, text:newMessage,time:Date.now()/1000});
+   this.afs.collection(`chats/${this.chatLanguageId}/messages`).add({uid:this.currentUser_id, user:this.currentUser, text:newMessage,time:+(Date.now()/1000)});
   }
 
 }
